@@ -217,6 +217,22 @@ footer a {
   text-decoration: none;
 }
 
+.carousel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.carousel img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+  touch-action: pan-y;
+  border-radius: 8px;
+}
+
+
 footer hr {
   margin-top: 2em;
   border: 0;
