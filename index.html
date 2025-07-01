@@ -35,11 +35,13 @@
     </section>
 
     <section class="featured" id="featured">
-      <h3>Featured Products</h3>
-      <div class="product-grid">
+  <h3>Featured Products</h3>
+  <div class="product-grid"></div>
+
   <script>
     const products = [
-      { img: "PH 1.jpg", name: "White Office Chair", price: "N$850", condition: "Excellent Condition" },
+      {
+        { img: "PH 1.jpg", name: "White Office Chair", price: "N$850", condition: "Excellent Condition" },
       { img: "PH 2.jpg", name: "32L Samgung Microwave", price: "N$950", condition: "Pre-Loved" },
       { img: "PH 3.jpg", name: "Electrical Frying Pan", price: "N$450", condition: "Pre-Loved" },
       { img: "PH 4.jpg", name: "Traditional Pot #3", price: "N$350", condition: "Showroom Quality" },
@@ -51,6 +53,87 @@
       { img: "PH 10.jpg", name: "Assorted Fabric", price: "N$20 per meter", condition: "Excellent Condition" },
     ];
 
+products.forEach(product => {
+      const productDiv = document.createElement("div");
+      productDiv.className = "product";
+
+      // === Image Carousel with Swipe ===
+      const imageContainer = document.createElement("div");
+      imageContainer.className = "carousel";
+
+      const imgElement = document.createElement("img");
+      let currentIndex = 0;
+      imgElement.src = product.img[currentIndex];
+      imgElement.alt = product.name;
+      imageContainer.appendChild(imgElement);
+
+      // Swipe logic
+      let startX = 0;
+
+      imageContainer.addEventListener("touchstart", (e) => {
+        startX = e.touches[0].clientX;
+      });
+
+      imageContainer.addEventListener("touchend", (e) => {
+        let endX = e.changedTouches[0].clientX;
+        let diff = endX - startX;
+
+        if (Math.abs(diff) > 30) {
+          if (diff < 0) {
+            // Swipe Left → Next
+            currentIndex = (currentIndex + 1) % product.img.length;
+          } else {
+            // Swipe Right → Previous
+            currentIndex = (currentIndex - 1 + product.img.length) % product.img.length;
+          }
+          imgElement.src = product.img[currentIndex];
+        }
+      });
+
+      productDiv.appendChild(imageContainer);
+
+      // === Product Info ===
+      const name = document.createElement("h4");
+      name.textContent = product.name;
+
+      const price = document.createElement("p");
+      price.textContent = product.price;
+
+      const condition = document.createElement("p");
+      condition.textContent = product.condition;
+
+      productDiv.appendChild(name);
+      productDiv.appendChild(price);
+      productDiv.appendChild(condition);
+
+      document.querySelector(".product-grid").appendChild(productDiv);
+    });
+  </script>
+</section>
+✅ CSS (add to your <style> or stylesheet)
+css
+Copy
+Edit
+.product-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.product {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.carousel img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  touch-action: pan-y;
+}
+   
     document.write(products.map((product, i) => `
       <div class="product-card" id="item${i+1}">
         <img src="${product.img}" alt="${product.name}" onclick="enlargeImage(this)" />
