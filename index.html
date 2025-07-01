@@ -6,6 +6,36 @@
   <title>TEST SITE TRADERS</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    /* Main layout styles */
+    .product-grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      padding: 1rem;
+    }
+
+    .product {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    .carousel img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      touch-action: pan-y;
+      cursor: pointer;
+    }
+
+    .donation-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1em;
+    }
+  </style>
 </head>
 <body>
   <header id="home">
@@ -35,163 +65,104 @@
     </section>
 
     <section class="featured" id="featured">
-  <h3>Featured Products</h3>
-  <div class="product-grid"></div>
+      <h3>Featured Products</h3>
+      <div class="product-grid"></div>
 
-  <script>
-    const products = [
-      {
-        { img: "PH 1.jpg", name: "White Office Chair", price: "N$850", condition: "Excellent Condition" },
-      { img: "PH 2.jpg", name: "32L Samgung Microwave", price: "N$950", condition: "Pre-Loved" },
-      { img: "PH 3.jpg", name: "Electrical Frying Pan", price: "N$450", condition: "Pre-Loved" },
-      { img: "PH 4.jpg", name: "Traditional Pot #3", price: "N$350", condition: "Showroom Quality" },
-      { img: "PH 5.jpg", name: "Traditional Pot #2", price: "N$250", condition: "Showroom Quality" },
-      { img: ["PH 6.jpg", "PH 6b.jpg", "PH 6c"], name: "32L Samgung Microwave", price: "N$1250", condition: "Trendsetter" },
-      { img: "PH 7.jpg", name: "Office Chair #3", price: "N$750", condition: "Well-Maintained" },
-      { img: "PH 8.jpg", name: "Office Chair #1", price: "N$650", condition: "Well-Maintained" },
-      { img: "PH 9.jpg", name: "Kitchen Sink", price: "N$1250", condition: "Well-Maintained" },
-      { img: "PH 10.jpg", name: "Assorted Fabric", price: "N$20 per meter", condition: "Excellent Condition" },
-    ];
+      <script>
+        const products = [
+          { img: "PH 1.jpg", name: "White Office Chair", price: "N$850", condition: "Excellent Condition" },
+          { img: "PH 2.jpg", name: "32L Samgung Microwave", price: "N$950", condition: "Pre-Loved" },
+          { img: "PH 3.jpg", name: "Electrical Frying Pan", price: "N$450", condition: "Pre-Loved" },
+          { img: "PH 4.jpg", name: "Traditional Pot #3", price: "N$350", condition: "Showroom Quality" },
+          { img: "PH 5.jpg", name: "Traditional Pot #2", price: "N$250", condition: "Showroom Quality" },
+          { img: ["PH 6.jpg", "PH 6b.jpg", "PH 6c.jpg"], name: "32L Samgung Microwave", price: "N$1250", condition: "Trendsetter" },
+          { img: "PH 7.jpg", name: "Office Chair #3", price: "N$750", condition: "Well-Maintained" },
+          { img: "PH 8.jpg", name: "Office Chair #1", price: "N$650", condition: "Well-Maintained" },
+          { img: "PH 9.jpg", name: "Kitchen Sink", price: "N$1250", condition: "Well-Maintained" },
+          { img: ["PH 10.jpg", "PH 10b.jpg"], name: "Assorted Fabric", price: "N$20 per meter", condition: "Excellent Condition" }
+        ];
 
-products.forEach(product => {
-      const productDiv = document.createElement("div");
-      productDiv.className = "product";
+        products.forEach(product => {
+          const productDiv = document.createElement("div");
+          productDiv.className = "product";
 
-      // === Image Carousel with Swipe ===
-      const imageContainer = document.createElement("div");
-      imageContainer.className = "carousel";
+          // Handle multiple images (carousel)
+          const imageContainer = document.createElement("div");
+          imageContainer.className = "carousel";
 
-      const imgElement = document.createElement("img");
-      let currentIndex = 0;
-      imgElement.src = product.img[currentIndex];
-      imgElement.alt = product.name;
-      imageContainer.appendChild(imgElement);
+          const imgElement = document.createElement("img");
+          let currentIndex = 0;
+          const imageList = Array.isArray(product.img) ? product.img : [product.img];
+          imgElement.src = imageList[currentIndex];
+          imgElement.alt = product.name;
+          imageContainer.appendChild(imgElement);
 
-      // Swipe logic
-      let startX = 0;
+          // Swipe support
+          let startX = 0;
+          imageContainer.addEventListener("touchstart", (e) => {
+            startX = e.touches[0].clientX;
+          });
 
-      imageContainer.addEventListener("touchstart", (e) => {
-        startX = e.touches[0].clientX;
-      });
+          imageContainer.addEventListener("touchend", (e) => {
+            let endX = e.changedTouches[0].clientX;
+            let diff = endX - startX;
 
-      imageContainer.addEventListener("touchend", (e) => {
-        let endX = e.changedTouches[0].clientX;
-        let diff = endX - startX;
+            if (Math.abs(diff) > 30) {
+              currentIndex = (diff < 0)
+                ? (currentIndex + 1) % imageList.length
+                : (currentIndex - 1 + imageList.length) % imageList.length;
 
-        if (Math.abs(diff) > 30) {
-          if (diff < 0) {
-            // Swipe Left → Next
-            currentIndex = (currentIndex + 1) % product.img.length;
-          } else {
-            // Swipe Right → Previous
-            currentIndex = (currentIndex - 1 + product.img.length) % product.img.length;
-          }
-          imgElement.src = product.img[currentIndex];
-        }
-      });
+              imgElement.src = imageList[currentIndex];
+            }
+          });
 
-      productDiv.appendChild(imageContainer);
+          productDiv.appendChild(imageContainer);
 
-      // === Product Info ===
-      const name = document.createElement("h4");
-      name.textContent = product.name;
+          // Product details
+          const name = document.createElement("h4");
+          name.textContent = product.name;
 
-      const price = document.createElement("p");
-      price.textContent = product.price;
+          const price = document.createElement("p");
+          price.textContent = product.price;
 
-      const condition = document.createElement("p");
-      condition.textContent = product.condition;
+          const condition = document.createElement("p");
+          condition.textContent = product.condition;
 
-      productDiv.appendChild(name);
-      productDiv.appendChild(price);
-      productDiv.appendChild(condition);
+          productDiv.appendChild(name);
+          productDiv.appendChild(price);
+          productDiv.appendChild(condition);
 
-      document.querySelector(".product-grid").appendChild(productDiv);
-    });
-  </script>
-</section>
-✅ CSS (add to your <style> or stylesheet)
-css
-Copy
-Edit
-.product-grid {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
+          document.querySelector(".product-grid").appendChild(productDiv);
+        });
+      </script>
+    </section>
 
-.product {
-  border: 1px solid #ccc;
-  padding: 10px;
-  text-align: center;
-  border-radius: 8px;
-}
-
-.carousel img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  touch-action: pan-y;
-}
-   
-    document.write(products.map((product, i) => `
-      <div class="product-card" id="item${i+1}">
-        <img src="${product.img}" alt="${product.name}" onclick="enlargeImage(this)" />
-        <h4>${product.name}</h4>
-        <p class="price">${product.price}</p>
-        <span class="condition faded-badge">${product.condition}</span>
-        <p class="status">In Stock</p>
-        <div class="like-section">
-          <i class="fas fa-heart" onclick="toggleLike(this)"></i> <span class="like-count">0</span>
-        </div>
-        <a href="https://wa.me/264817859603" target="_blank" class="whatsapp-button">
-          <i class="fab fa-whatsapp"></i> WhatsApp Seller
-        </a>
-      </div>
-    `).join(''));
-  </script>
-</div>
-    
     <section id="donations" class="donations">
       <h3>Donations Section</h3>
-      <p>Support our mission by donating usable items."Making a Difference with Simple Acts of Kindness".</p>
+      <p>Support our mission by donating usable items. "Making a Difference with Simple Acts of Kindness".</p>
+    </section>
+
+    <section class="donation-gallery" style="max-width: 600px; margin: 2em auto;">
+      <div class="donation-grid">
+        <div class="donation-item">
+          <img src="don1.jpg" alt="Donation Item 1" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
+          <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
+        </div>
+        <div class="donation-item">
+          <img src="don2.jpg" alt="Donation Item 2" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
+          <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
+        </div>
+        <div class="donation-item">
+          <img src="don3.jpg" alt="Donation Item 3" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
+          <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
+        </div>
+        <div class="donation-item">
+          <img src="don4.jpg" alt="Donation Item 4" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
+          <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
+        </div>
+      </div>
     </section>
   </main>
-
-<section class="donation-gallery" style="max-width: 600px; margin: 2em auto;">
-  <div class="donation-grid">
-    <div class="donation-item">
-      <img src="don1.jpg" alt="Donation Item 1" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
-      <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
-    </div>
-    <div class="donation-item">
-      <img src="don2.jpg" alt="Donation Item 2" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
-      <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
-    </div>
-    <div class="donation-item">
-      <img src="don3.jpg" alt="Donation Item 3" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
-      <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
-    </div>
-    <div class="donation-item">
-      <img src="don4.jpg" alt="Donation Item 4" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
-      <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
-    </div>
-  </div>
-</section>
-
-<style>
-  .donation-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1em;
-  }
-</style>
-
-<script>
-  function enlargeImage(img) {
-    window.open(img.src, '_blank');
-  }
-</script>
 
   <footer id="contact">
     <div class="footer-section about" id="about">
