@@ -105,6 +105,26 @@ header {
   cursor: pointer;
 }
 
+.product-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.product {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.carousel img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  touch-action: pan-y;
+}
+
 .price {
   font-weight: bold;
   margin-top: 0.5em;
