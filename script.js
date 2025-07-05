@@ -81,14 +81,16 @@ products.forEach((product, index) => {
 
   const swiperId = `swiper-${index}`;
 
-  const imagesHTML = product.images.map((src, i) => `
-    <div class="swiper-slide">
-      <div class="swiper-zoom-container">
-        <img src="${src}" alt="${product.name}" onclick="openFullGallery(${index}, ${i})" />
-      </div>
-    </div>
-  `).join('');
+const imageList = Array.isArray(product.img) ? product.img : [product.img];
 
+const imagesHTML = imageList.map((src, i) => `
+  <div class="swiper-slide">
+    <div class="swiper-zoom-container">
+      <img src="${src}" alt="${product.name}" />
+    </div>
+  </div>
+`).join('');
+  
   productCard.innerHTML = `
     <div class="swiper product-swiper" id="${swiperId}">
       <div class="swiper-wrapper">
