@@ -1,17 +1,77 @@
 const products = [
   {
-    images: ['PH10a.jpg', 'PH10b.jpg', 'PH10c.jpg'],
-    name: 'Product 1',
-    desc: 'Short description for product 1.',
-    price: '$29.99'
+        img: "PH1.jpg",
+    name: "White Office Chair",
+    price: "N$850",
+    condition: "Well-Maintained"
   },
   {
-    images: ['PH3a.jpg', 'PH3b.jpg', 'PH3c.jpg'],
-    name: 'Product 2',
-    desc: 'Short description for product 2.',
-    price: '$39.99'
-  }
-  // Add more products here
+    img: "PH2.jpg",
+    name: "32L Samsung Microwave",
+    price: "N$950",
+    condition: "Trendsetter"
+  },
+  {
+    img: ["PH3a.jpg", "PH3b.jpg", "PH3c.jpg"],
+    name: "Electrical Frying Pan",
+    price: "N$450",
+    condition: "Well-Maintained"
+  },
+  {
+    img: "PH4.jpg",
+    name: "Traditional Pot #3",
+    price: "N$350",
+    condition: "Well-Maintained"
+  },
+  {
+    img: "PH5.jpg",
+    name: "Traditional Pot #2",
+    price: "N$250",
+    condition: "Well-Maintained"
+  },
+  {
+    img: ["PH6a.jpg", "PH6b.jpg", "PH6c.jpg"],
+    name: "32L Samsung Microwave",
+    price: "N$1,250",
+    condition: "Trendsetter"
+  },
+  {
+    img: "PH7.jpg",
+    name: "Office Chair #3",
+    price: "N$750",
+    condition: "Well-Maintained"
+  },
+  {
+    img: "PH8.jpg",
+    name: "Office Chair #1",
+    price: "N$650",
+    condition: "Well-Maintained"
+  },
+  {
+    img: "PH9.jpg",
+    name: "Kitchen Sink",
+    price: "N$1,250",
+    condition: "Well-Maintained"
+  },
+  {
+    img: ["PH10a.jpg", "PH10b.jpg"],
+    name: "Event Tables",
+    price: "N$2,700",
+    condition: "Well-Maintained"
+  },
+  {
+    img: ["PH11a.jpg", "PH11b.jpg"],
+    name: "Assorted Fabric",
+    price: "N$20 per meter",
+    condition: "Various Colors"
+  },
+  {
+    img: "PH12.jpg",
+    name: "Mirror #1",
+    price: "N$1,250",
+    condition: "Well-Maintained"
+},
+  {
 ];
 
 const container = document.getElementById('product-container');
