@@ -70,8 +70,7 @@ const products = [
     name: "Mirror #1",
     price: "N$1,250",
     condition: "Well-Maintained"
-},
-  {
+  },
 ];
 
 const container = document.getElementById('product-container');
