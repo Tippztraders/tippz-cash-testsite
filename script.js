@@ -1,6 +1,6 @@
 const products = [
   {
-        img: "PH1.jpg",
+    img: "PH1.jpg",
     name: "White Office Chair",
     price: "N$850",
     condition: "Well-Maintained"
@@ -70,46 +70,46 @@ const products = [
     name: "Mirror #1",
     price: "N$1,250",
     condition: "Well-Maintained"
-  },
+  }
 ];
 
-const container = document.getElementById('product-container');
-
-products.forEach((product, index) => {
-  const productCard = document.createElement('div');
-  productCard.className = 'product-card';
-
-  const swiperId = `swiper-${index}`;
-
-const imageList = Array.isArray(product.img) ? product.img : [product.img];
-
-const imagesHTML = imageList.map((src, i) => `
-  <div class="swiper-slide">
-    <div class="swiper-zoom-container">
-      <img src="${src}" alt="${product.name}" />
-    </div>
-  </div>
-`).join('');
-  
-  productCard.innerHTML = `
-    <div class="swiper product-swiper" id="${swiperId}">
-      <div class="swiper-wrapper">
-        ${imagesHTML}
-      </div>
-    </div>
-    <h2>${product.name}</h2>
-    <p class="description">${product.desc}</p>
-    <p class="price">${product.price}</p>
-    <button>Add to Cart</button>
-  `;
-
-  container.appendChild(productCard);
-});
-
-// Activate all Swipers
 window.addEventListener('load', () => {
-  document.querySelectorAll('.product-swiper').forEach(swiperEl => {
-    new Swiper(swiperEl, {
+  const container = document.getElementById('product-container');
+  if (!container) {
+    console.error("❌ product-container not found!");
+    return;
+  }
+
+  products.forEach((product, index) => {
+    const productCard = document.createElement('div');
+    productCard.className = 'product-card';
+
+    const swiperId = `swiper-${index}`;
+    const imageList = Array.isArray(product.img) ? product.img : [product.img];
+
+    const imagesHTML = imageList.map((src, i) => `
+      <div class="swiper-slide">
+        <div class="swiper-zoom-container">
+          <img src="${src}" alt="${product.name}" />
+        </div>
+      </div>
+    `).join('');
+
+    productCard.innerHTML = `
+      <div class="swiper product-swiper" id="${swiperId}">
+        <div class="swiper-wrapper">
+          ${imagesHTML}
+        </div>
+      </div>
+      <h2>${product.name}</h2>
+      <p class="price">${product.price}</p>
+      <p class="condition">${product.condition}</p>
+    `;
+
+    container.appendChild(productCard);
+
+    // Activate Swiper
+    new Swiper(`#${swiperId}`, {
       zoom: true,
       loop: true,
       slidesPerView: 1,
@@ -117,39 +117,3 @@ window.addEventListener('load', () => {
     });
   });
 });
-
-let fullGallerySwiper = null;
-
-function openFullGallery(productIndex, startAt = 0) {
-  const product = products[productIndex];
-  const wrapper = document.getElementById('fullGalleryWrapper');
-  wrapper.innerHTML = product.images.map(src => `
-    <div class="swiper-slide">
-      <div class="swiper-zoom-container">
-        <img src="${src}" alt="Full Image" />
-      </div>
-    </div>
-  `).join('');
-
-  document.getElementById('fullGalleryModal').classList.add('active');
-
-  if (fullGallerySwiper) {
-    fullGallerySwiper.destroy(true, true);
-  }
-
-  fullGallerySwiper = new Swiper('#fullGallerySwiper', {
-    zoom: true,
-    loop: true,
-    slidesPerView: 1,
-    initialSlide: startAt,
-    spaceBetween: 10
-  });
-}
-
-function closeFullGallery() {
-  document.getElementById('fullGalleryModal').classList.remove('active');
-  if (fullGallerySwiper) {
-    fullGallerySwiper.destroy(true, true);
-    fullGallerySwiper = null;
-  }
-}
