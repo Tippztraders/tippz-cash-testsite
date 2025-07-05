@@ -2,208 +2,137 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TEST SITE TRADERS</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Carousel</title>
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
   <style>
-    /* Main layout styles */
-    .product-grid {
-      display: grid;
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .product-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 20px;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      padding: 1rem;
     }
 
-    .product {
-      border: 1px solid #ccc;
-      padding: 10px;
+    .product-card {
+      width: 300px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       text-align: center;
-      border-radius: 8px;
     }
 
-    .carousel img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      touch-action: pan-y;
+    .product-card h2 {
+      font-size: 1.2em;
+      margin: 10px 0 5px;
+    }
+
+    .product-card .description {
+      font-size: 0.9em;
+      color: #555;
+    }
+
+    .product-card .price {
+      font-size: 1.1em;
+      color: #009688;
+      margin: 10px 0;
+    }
+
+    .product-card button {
+      padding: 10px 15px;
+      background-color: #009688;
+      color: white;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
     }
 
-    .donation-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1em;
+    .product-card button:hover {
+      background-color: #00796b;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swiper-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    /* Modal full gallery */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+      z-index: 10000;
+    }
+
+    .modal .swiper {
+      width: 90%;
+      height: 90%;
     }
   </style>
 </head>
 <body>
-  <header id="home">
-    <div class="logo-section">
-      <h1 class="stroked-text">TEST SITE TRADERS</h1>
-      <img src="Logo.jpeg" alt="Logo" class="logo-img"/>
+
+<div class="product-row" id="product-container">
+  <!-- JS injects product cards here -->
+</div>
+
+<!-- Modal Full Gallery -->
+<div class="modal" id="fullGalleryModal">
+  <div class="close-btn" onclick="closeFullGallery()">&times;</div>
+  <div class="swiper" id="fullGallerySwiper">
+    <div class="swiper-wrapper" id="fullGalleryWrapper">
+      <!-- Images go here -->
     </div>
-    <div class="search-bar">
-      <input type="text" placeholder="Search...">
-      <button><i class="fas fa-search"></i></button>
-    </div>
-    <nav>
-      <ul class="nav-row">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#featured">Products</a></li>
-        <li><a href="#donations">Donations</a></li>
-        <li><a href="#about">About</a></li>
-      </ul>
-    </nav>
-  </header>
+  </div>
+</div>
 
-  <main>
-    <section class="hero">
-      <h2>Quality Pre-owned Items at Great Prices.</h2>
-      <p>Discover amazing deals on carefully selected second-hand products.</p>
-      <a href="#item3" class="cta-button">Shop Now</a>
-    </section>
-
-    <section class="featured" id="featured">
-      <h3>Featured Products</h3>
-      <div class="product-grid"></div>
-
-      <script>
-  const products = [
-    { img: "PH 1.jpg", name: "White Office Chair", price: "N$850", condition: "Excellent Condition" },
-    { img: "PH 2.jpg", name: "32L Samsung Microwave", price: "N$950", condition: "Pre-Loved" },
-    { img: "PH 3.jpg", name: "Electrical Frying Pan", price: "N$450", condition: "Pre-Loved" },
-    { img: "PH 4.jpg", name: "Traditional Pot #3", price: "N$350", condition: "Showroom Quality" },
-    { img: "PH 5.jpg", name: "Traditional Pot #2", price: "N$250", condition: "Showroom Quality" },
-    { img: ["PH 6.jpg", "PH 6b.jpg", "PH 6c.jpg"], name: "32L Samsung Microwave", price: "N$1,250", condition: "Trendsetter" },
-    { img: "PH 7.jpg", name: "Office Chair #3", price: "N$750", condition: "Well-Maintained" },
-    { img: "PH 8.jpg", name: "Office Chair #1", price: "N$650", condition: "Well-Maintained" },
-    { img: "PH 9.jpg", name: "Kitchen Sink", price: "N$1,250", condition: "Well-Maintained" },
-    { img: "PH 10.jpg", name: "Assorted Fabric", price: "N$20 per meter", condition: "Excellent Condition" }
-  ];
-
-  const grid = document.querySelector(".product-grid");
-
-  products.forEach(product => {
-    const productDiv = document.createElement("div");
-    productDiv.className = "product";
-
-    // Prepare image carousel
-    const imageList = Array.isArray(product.img) ? product.img : [product.img];
-    let currentIndex = 0;
-
-    const imageContainer = document.createElement("div");
-    imageContainer.className = "carousel";
-
-    const imgElement = document.createElement("img");
-    imgElement.src = imageList[currentIndex];
-    imgElement.alt = product.name;
-    imageContainer.appendChild(imgElement);
-
-    // Swipe support
-    let startX = 0;
-    imageContainer.addEventListener("touchstart", e => {
-      startX = e.touches[0].clientX;
-    });
-
-    imageContainer.addEventListener("touchend", e => {
-      const endX = e.changedTouches[0].clientX;
-      const diff = endX - startX;
-
-      if (Math.abs(diff) > 30 && imageList.length > 1) {
-        currentIndex = (diff < 0)
-          ? (currentIndex + 1) % imageList.length
-          : (currentIndex - 1 + imageList.length) % imageList.length;
-
-        imgElement.src = imageList[currentIndex];
-      }
-    });
-
-    productDiv.appendChild(imageContainer);
-
-    // Product info
-    const name = document.createElement("h4");
-    name.textContent = product.name;
-
-    const price = document.createElement("p");
-    price.textContent = product.price;
-
-    const condition = document.createElement("p");
-    condition.textContent = product.condition;
-
-    productDiv.appendChild(name);
-    productDiv.appendChild(price);
-    productDiv.appendChild(condition);
-
-    grid.appendChild(productDiv);
-  });
-</script>
-
-    <section id="donations" class="donations">
-      <h3>Donations Section</h3>
-      <p>Support our mission by donating usable items. "Making a Difference with Simple Acts of Kindness".</p>
-    </section>
-
-    <section class="donation-gallery" style="max-width: 600px; margin: 2em auto;">
-      <div class="donation-grid">
-        <div class="donation-item">
-          <img src="don1.jpg" alt="Donation Item 1" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
-          <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
-        </div>
-        <div class="donation-item">
-          <img src="don2.jpg" alt="Donation Item 2" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
-          <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
-        </div>
-        <div class="donation-item">
-          <img src="don3.jpg" alt="Donation Item 3" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
-          <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
-        </div>
-        <div class="donation-item">
-          <img src="don4.jpg" alt="Donation Item 4" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
-          <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer id="contact">
-    <div class="footer-section about" id="about">
-      <h4>About TEST SITE TRADERS</h4>
-      <p>We're dedicated to giving quality items a second chance while helping you save money and reduce waste.</p>
-    </div>
-    <div class="footer-section links">
-      <h4>Quick Links</h4>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#featured">Products</a></li>
-        <li><a href="#donations">Our Donation Section</a></li>
-        <li>About Us</li>
-      </ul>
-    </div>
-    <div class="footer-section contact">
-      <h4>Contact Info</h4>
-      <p><i class="fas fa-envelope"></i> <a href="mailto:tippzcashtraders@gmail.com">tippzcashtraders@gmail.com</a></p>
-      <p><i class="fas fa-phone"></i> <a href="tel:+264817859603">+264817859603</a></p>
-    </div>
-    <div class="footer-section social">
-      <h4>Follow Us</h4>
-      <p><a href="https://www.facebook.com/share/1CRCKL5zVH/" target="_blank">Facebook</a></p>
-    </div>
-    <hr />
-    <p class="copyright">© 2025 TEST SITE TRADERS. All rights reserved.</p>
-  </footer>
-
-  <script>
-    function toggleLike(icon) {
-      const count = icon.nextElementSibling;
-      let number = parseInt(count.textContent);
-      icon.classList.toggle('liked');
-      count.textContent = icon.classList.contains('liked') ? number + 1 : number - 1;
-    }
-
-    function enlargeImage(img) {
-      window.open(img.src, '_blank');
-    }
-  </script>
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
