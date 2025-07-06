@@ -9,9 +9,6 @@ const products = [
     { img: "PH7.jpg", name: "Office Chair #3", price: "N$750", condition: "Well-Maintained" },
     { img: "PH8.jpg", name: "Office Chair #1", price: "N$650", condition: "Well-Maintained" },
     { img: "PH9.jpg", name: "Kitchen Sink", price: "N$1,250", condition: "Well-Maintained" },
-    { img: "PH10.jpg", name: "Event Tables", price: "N$2,700 both", condition: "Well-Maintained" },
-    { img: ["PH11a.jpg", "PH11b.jpg"], name: "Assorted Fabric ", price: "N$20 per meter", condition: "Well-Maintained" },
-    { img: "PH12.jpg", name: "Mirror#1", price: "N$1,250", condition: "Trendsetter" },
   }
 ];
 
