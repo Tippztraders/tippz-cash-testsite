@@ -3,50 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TEST SITE TRADERS</title>
+  <title>Tippz Cash Traders</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-  <style>
-    .product-grid {
-      display: grid;
-      gap: 20px;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      padding: 1rem;
-    }
-
-    .product-card {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: center;
-      border-radius: 8px;
-      background-color: #fff;
-    }
-
-    .swiper {
-      width: 100%;
-      height: auto;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .swiper-slide img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .swiper-zoom-container img {
-      max-width: 100%;
-    }
-  </style>
 </head>
 <body>
   <header id="home">
     <div class="logo-section">
-      <h1 class="stroked-text">TEST SITE TRADERS</h1>
+      <h1 class="stroked-text">Tippz Cash Traders</h1>
       <img src="Logo.jpeg" alt="Logo" class="logo-img"/>
     </div>
     <div class="search-bar">
@@ -67,44 +31,97 @@
     <section class="hero">
       <h2>Quality Pre-owned Items at Great Prices.</h2>
       <p>Discover amazing deals on carefully selected second-hand products.</p>
-      <a href="#featured" class="cta-button">Shop Now</a>
+      <a href="#item3" class="cta-button">Shop Now</a>
     </section>
 
     <section class="featured" id="featured">
       <h3>Featured Products</h3>
-      <div class="product-grid" id="product-container"></div>
-    </section>
+    
+<div class="product-grid" id="product-list">
+</div>
 
-    <section id="donations" class="donations">
-      <h3>Donations Section</h3>
-      <p>Support our mission by donating usable items. "Making a Difference with Simple Acts of Kindness".</p>
-    </section>
+<script>
+  const products = [
+    { img: "PH1.jpg", name: "White Office Chair", price: "N$850", condition: "Excellent Condition" },
+    { img: "PH2.jpg", name: "32L Samsung Microwave", price: "N$950", condition: "Pre-Loved" },
+    { img: "PH3.jpg", name: "Electrical Frying Pan", price: "N$450", condition: "Pre-Loved" },
+    { img: "PH4.jpg", name: "Traditional Pot #3", price: "N$350", condition: "Showroom Quality" },
+    { img: "PH5.jpg", name: "Traditional Pot #2", price: "N$250", condition: "Showroom Quality" },
+    { img: "PH6.jpg", name: "32L Samsung Microwave", price: "N$1,250", condition: "Trendsetter" },
+    { img: "PH7.jpg", name: "Office Chair #3", price: "N$750", condition: "Well-Maintained" },
+    { img: "PH8.jpg", name: "Office Chair #1", price: "N$650", condition: "Well-Maintained" },
+    { img: "PH9.jpg", name: "Kitchen Sink", price: "N$1,250", condition: "Well-Maintained" },
+    { img: "PH10a.jpg", name: "Event Tables", price: "N$2,350 Both", condition: "Well-Maintained"  },
+    { img: "PH11a.jpg", name: "Assorted Fabric ", price: "N$20 per meter", condition: "Showroom Quality" },
+    { img: "PH12.jpg", name: "Mirror#1", price: "N$1,250", condition: "Trendsetter" },
+  ];
 
-    <section class="donation-gallery" style="max-width: 600px; margin: 2em auto;">
-      <div class="donation-grid">
-        <div class="donation-item">
-          <img src="don1.jpg" alt="Donation Item 1" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
-          <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
+  const productList = document.getElementById('product-list');
+
+  products.forEach((product, i) => {
+    const productCard = `
+      <div class="product-card" id="item${i + 1}">
+        <img src="${product.img}" alt="${product.name}" onclick="enlargeImage(this)" />
+        <h4>${product.name}</h4>
+        <p class="price">${product.price}</p>
+        <span class="condition faded-badge">${product.condition}</span>
+        <p class="status">In Stock</p>
+        <div class="like-section">
+          <i class="fas fa-heart" onclick="toggleLike(this)"></i> <span class="like-count">0</span>
         </div>
-        <div class="donation-item">
-          <img src="don2.jpg" alt="Donation Item 2" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
-          <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
-        </div>
-        <div class="donation-item">
-          <img src="don3.jpg" alt="Donation Item 3" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
-          <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
-        </div>
-        <div class="donation-item">
-          <img src="don4.jpg" alt="Donation Item 4" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
-          <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
-        </div>
+        <a href="https://wa.me/264817859603?text=Hello,%20I%20am%20interested%20in%20this%20item:%20${encodeURIComponent(product.name)},%20priced%20at%20${encodeURIComponent(product.price)}" target="_blank" class="whatsapp-button">
+          <i class="fab fa-whatsapp"></i> WhatsApp Seller
+        </a>
       </div>
+    `;
+    productList.innerHTML += productCard;
+  });
+</script>
+   
+        <section id="donations" class="donations">
+      <h3>Donations Section</h3>
+      <p>Support our mission by donating usable items."Making a Difference with Simple Acts of Kindness".</p>
     </section>
   </main>
 
+<section class="donation-gallery" style="max-width: 600px; margin: 2em auto;">
+  <div class="donation-grid">
+    <div class="donation-item">
+      <img src="don1.jpg" alt="Donation Item 1" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
+      <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
+    </div>
+    <div class="donation-item">
+      <img src="don2.jpg" alt="Donation Item 2" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
+      <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
+    </div>
+    <div class="donation-item">
+      <img src="don3.jpg" alt="Donation Item 3" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
+      <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
+    </div>
+    <div class="donation-item">
+      <img src="don4.jpg" alt="Donation Item 4" onclick="enlargeImage(this)" style="width:100%; cursor:pointer; border-radius:8px;" />
+      <p style="text-align:center; margin-top:0.5em;">Click to Zoom</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .donation-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1em;
+  }
+</style>
+
+<script>
+  function enlargeImage(img) {
+    window.open(img.src, '_blank');
+  }
+</script>
+
   <footer id="contact">
     <div class="footer-section about" id="about">
-      <h4>About TEST SITE TRADERS</h4>
+      <h4>About Tippz Cash Traders</h4>
       <p>We're dedicated to giving quality items a second chance while helping you save money and reduce waste.</p>
     </div>
     <div class="footer-section links">
@@ -126,11 +143,9 @@
       <p><a href="https://www.facebook.com/share/1CRCKL5zVH/" target="_blank">Facebook</a></p>
     </div>
     <hr />
-    <p class="copyright">© 2025 TEST SITE TRADERS. All rights reserved.</p>
+    <p class="copyright">© 2025 Tippz Cash Traders. All rights reserved.</p>
   </footer>
 
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-  <script src="script.js"></script>
   <script>
     function toggleLike(icon) {
       const count = icon.nextElementSibling;
@@ -143,7 +158,5 @@
       window.open(img.src, '_blank');
     }
   </script>
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<script src="script.js"></script>
 </body>
 </html>
