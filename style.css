@@ -19,8 +19,8 @@ header {
   max-width: 100px;
   display: block;
   margin: 1em auto;
-  background-color: #f0f0f0; /* light grey to reveal transparent edges */
-  border-radius: 8px; /* optional: smooth corners */
+  background-color: #f0f0f0;
+  border-radius: 8px;
 }
 
 .search-bar {
@@ -46,16 +46,16 @@ header {
   padding: 0;
   margin: 0 auto;
   display: flex;
-  flex-wrap: wrap;        /* allow wrapping */
+  flex-wrap: wrap;
   justify-content: center;
   background: white;
   max-width: 900px;
 }
 
 @media (max-width: 600px) {
-.nav-row li a {
-  font-size: 0.9em;
-  padding: 0.75em;
+  .nav-row li a {
+    font-size: 0.9em;
+    padding: 0.75em;
   }
 }
 
@@ -83,7 +83,7 @@ header {
 
 .featured {
   padding: 2em 1em;
-  text-align: center; 
+  text-align: center;
 }
 
 .product-grid {
@@ -94,6 +94,7 @@ header {
 
 .product-card {
   background: white;
+  border: 1px solid #ccc;
   padding: 1em;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -108,7 +109,7 @@ header {
 .price {
   font-weight: bold;
   margin-top: 0.5em;
- }
+}
 
 .faded-badge {
   background: rgba(255, 0, 0, 0.1);
@@ -123,7 +124,7 @@ header {
 .status {
   font-size: 0.9em;
   margin-top: 0.3em;
-  }
+}
 
 .like-section {
   margin-top: 0.5em;
@@ -205,9 +206,56 @@ footer a {
   color: #555;
 }
 
-
 footer hr {
   margin-top: 2em;
   border: 0;
   border-top: 1px solid #444;
+}
+
+/* ✅ Lightbox styles (added below) */
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 75vh;
+  border-radius: 10px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: white;
+  font-size: 2em;
+  cursor: pointer;
+}
+
+.lightbox-dots {
+  margin-top: 1em;
+  display: flex;
+  gap: 10px;
+}
+
+.lightbox-dots div {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #666;
+  cursor: pointer;
+}
+
+.lightbox-dots .active {
+  background: #fff;
 }
