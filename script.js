@@ -1,29 +1,99 @@
 const products = [
   {
-    images: ["PH 1a.jpg", "PH 1b.jpg", "PH 1c.jpg"],
+    images: ["PH1.jpg"],
     name: "White Office Chair",
     price: "N$850",
     condition: "Excellent Condition"
   },
   {
-    images: ["PH 2.jpg"],
+    images: ["PH2.jpg"],
     name: "32L Samsung Microwave",
     price: "N$950",
     condition: "Pre-Loved"
   },
   {
-    images: ["PH 3.jpg"],
+    images: ["PH3a.jpg", "PH3b.jpg", "PH3c.jpg"],
     name: "Electrical Frying Pan",
     price: "N$450",
     condition: "Pre-Loved"
+  },
+  {
+    images: ["PH4.jpg"],
+    name: "Traditional Pot #3",
+    price: "N$350",
+    condition: "Showroom Quality"
+  },
+  {
+    images: ["PH5.jpg"],
+    name: "Traditional Pot #2",
+    price: "N$250",
+    condition: "Showroom Quality"
+  },
+  {
+    images: ["PH6a.jpg", "PH6b.jpg", "PH6c.jpg"],
+    name: "32L Samsung Microwave",
+    price: "N$1,250",
+    condition: "Trendsetter"
+  },
+  {
+    images: ["PH7.jpg"],
+    name: "Office Chair #3",
+    price: "N$750",
+    condition: "Well-Maintained"
+  },
+  {
+    images: ["PH8.jpg"],
+    name: "Office Chair #1",
+    price: "N$650",
+    condition: "Well-Maintained"
+  },
+  {
+    images: ["PH9.jpg"],
+    name: "Kitchen Sink",
+    price: "N$1,250",
+    condition: "Well-Maintained"
+  },
+  {
+    images: ["PH10a.jpg", "PH10b.jpg"],
+    name: "Event Tables",
+    price: "N$2,700",
+    condition: "Excellent Condition"
+  },
+  {
+    images: ["PH11a.jpg", "PH11b.jpg", "PH11c.jpg", "PH11d.jpg", "PH11e.jpg"],
+    name: "Assorted Fabric",
+    price: "N$20 per meter",
+    condition: "Excellent Condition"
+  },
+  {
+    images: ["PH12.jpg"],
+    name: "Mirror #1",
+    price: "N$1,250",
+    condition: "Excellent Condition"
+  },
+  {
+    images: ["PH14.jpg"],
+    name: "Electrical Cable",
+    price: "N$50",
+    condition: "New"
   }
-  // 👉 Add more products using this structure
 ];
 
 // Render products
 document.querySelector(".product-grid").innerHTML = products.map((product, i) => `
   <div class="product-card" id="item${i + 1}">
-    <img src="${product.images[0]}" alt="${product.name}" onclick="openLightbox(${i}, 0)" />
+    <div class="image-wrapper" style="position: relative;">
+      <img src="${product.images[0]}" alt="${product.name}" onclick="openLightbox(${i}, 0)" />
+      ${
+        product.images.length > 1
+          ? `<div class="image-dots" style="position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px;">
+               ${product.images.map((_, dotIndex) => `
+                 <div style="width: 8px; height: 8px; background: #999; border-radius: 50%; opacity: 0.7;"></div>
+               `).join('')}
+             </div>`
+          : ''
+      }
+    </div>
     <h4>${product.name}</h4>
     <p class="price">${product.price}</p>
     <span class="condition faded-badge">${product.condition}</span>
