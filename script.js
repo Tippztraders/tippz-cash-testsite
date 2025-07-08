@@ -11,16 +11,7 @@ const products = [
     price: "N$950",
     condition: "Pre-Loved"
   },
-  {
-    images: ["PH3a.jpg", "PH3b.jpg", "PH3c.jpg"],
-    name: "Electrical Frying Pan",
-    price: "N$450",
-    condition: "Pre-Loved"
-   },
-    {
-  // 👉 Add more products using this structure
-  },  
-];
+ ];
 
 // Render products
 document.querySelector(".product-grid").innerHTML = products.map((product, i) => `
