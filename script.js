@@ -1,18 +1,18 @@
 const products = [
   {
-    images: ["PH 1a.jpg", "PH 1b.jpg", "PH 1c.jpg"],
+    images: ["PH1a.jpg"],
     name: "White Office Chair",
     price: "N$850",
     condition: "Excellent Condition"
   },
   {
-    images: ["PH 2.jpg"],
+    images: ["PH2.jpg"],
     name: "32L Samsung Microwave",
     price: "N$950",
     condition: "Pre-Loved"
   },
   {
-    images: ["PH 3.jpg"],
+    images: ["PH3a.jpg", "PH3b.jpg", "PH3c.jpg"],
     name: "Electrical Frying Pan",
     price: "N$450",
     condition: "Pre-Loved"
