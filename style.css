@@ -260,3 +260,18 @@ footer hr {
   background: #fff;
 }
 
+.disclaimer-btn {
+  margin-top: 10px;
+  background-color: yellow;
+  color: black;
+  border: none;
+  padding: 8px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.disclaimer-btn:hover {
+  background-color: gold;
+}
