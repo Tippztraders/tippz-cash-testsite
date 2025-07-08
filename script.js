@@ -17,31 +17,7 @@ const products = [
     price: "N$450",
     condition: "Pre-Loved"
    },
-  {
-  images: ["PH4.jpg"],
-    name: "traditional Pot #3",
-    price: "N$350",
-    condition: "Mint Condition"
-  },
-  {
-   images: ["PH4.jpg"],
-    name: "traditional Pot #2",
-    price: "N$250",
-    condition: "Mint Condition"
-  },
-  {
-  // 👉 Add more products using this structure
-  },  
-   {
-   // 👉 Add more products using this structure 
-  },
-  {
-  // 👉 Add more products using this structure
-  },  
-   {
-   // 👉 Add more products using this structure 
-  },
-  {
+    {
   // 👉 Add more products using this structure
   },  
 ];
