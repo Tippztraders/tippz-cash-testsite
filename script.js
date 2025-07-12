@@ -1,3 +1,5 @@
+// ✅ This is the swipe image + tap-dot-to-close + desktop arrow support code
+
 const products = [
   {
     images: ["PH1.jpg"],
@@ -79,7 +81,6 @@ const products = [
   }
 ];
 
-// Render products with image dots, like button, WhatsApp button
 const productContainer = document.querySelector(".product-grid");
 
 function renderProducts() {
@@ -111,7 +112,6 @@ function renderProducts() {
 
 renderProducts();
 
-// Lightbox Logic
 let currentProductIndex = 0;
 let currentImageIndex = 0;
 
@@ -119,37 +119,81 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightboxImage");
 const lightboxDots = document.getElementById("lightboxDots");
 
-// Open lightbox and show image at imageIndex
+// Open lightbox
 function openLightbox(productIndex, imageIndex) {
   currentProductIndex = productIndex;
   currentImageIndex = imageIndex;
   updateLightbox();
   lightbox.style.display = "flex";
-  // Reset swipe tracking
-  startY = null;
-  startX = null;
 }
 
-// Close lightbox
-function closeLightbox() {
+function closeLightbox(scrollBack = false) {
   lightbox.style.display = "none";
+  if (scrollBack) {
+    const target = document.getElementById(`item${currentProductIndex + 1}`);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
 }
 
 function updateLightbox() {
   const images = products[currentProductIndex].images;
   lightboxImage.src = images[currentImageIndex];
-
   lightboxDots.innerHTML = images.map((_, i) => `
-    <div class="${i === currentImageIndex ? 'active' : ''}" onclick="goToImage(${i})"></div>
+    <div class="${i === currentImageIndex ? 'active' : ''}" onclick="goToImageAndClose(${i})"></div>
   `).join('');
 }
 
-function goToImage(i) {
+function goToImageAndClose(i) {
   currentImageIndex = i;
   updateLightbox();
+  setTimeout(() => {
+    closeLightbox(true);
+  }, 150);
 }
 
-// Like button logic with burst hearts and text "I 💖 this 😎"
+// Swipe image left/right on mobile
+let startX = null;
+lightbox.addEventListener('touchstart', e => {
+  startX = e.touches[0].clientX;
+});
+
+lightbox.addEventListener('touchmove', e => {
+  if (startX === null) return;
+  let x = e.touches[0].clientX;
+  let diffX = x - startX;
+
+  if (Math.abs(diffX) > 50) {
+    const images = products[currentProductIndex].images;
+    if (diffX < 0) {
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+    } else {
+      currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+    }
+    updateLightbox();
+    startX = null;
+  }
+});
+
+// Arrow keys for desktop image browsing
+document.addEventListener("keydown", e => {
+  if (lightbox.style.display !== "flex") return;
+  const images = products[currentProductIndex].images;
+  if (e.key === "ArrowRight") {
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+    updateLightbox();
+  }
+  if (e.key === "ArrowLeft") {
+    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+    updateLightbox();
+  }
+  if (e.key === "Escape") {
+    closeLightbox(true);
+  }
+});
+
+// Like button logic
 function toggleLike(icon, productIndex) {
   const likedKey = `liked_${productIndex}`;
   const isLiked = localStorage.getItem(likedKey) === 'true';
@@ -165,38 +209,30 @@ function toggleLike(icon, productIndex) {
   }
 }
 
-// Initialize like buttons from localStorage on load
 function initLikes() {
   const likeIcons = document.querySelectorAll('.fa-heart');
   likeIcons.forEach((icon, idx) => {
-    if(localStorage.getItem(`liked_${idx}`) === 'true') {
+    if (localStorage.getItem(`liked_${idx}`) === 'true') {
       icon.classList.add('liked');
     }
   });
 }
 
-// Burst hearts animation
 function createBurstHearts(targetIcon) {
-  for(let i=0; i<6; i++) {
+  for (let i = 0; i < 6; i++) {
     const heart = document.createElement('div');
     heart.classList.add('burst-heart');
-    // random directions for burst
     heart.style.setProperty('--x', (Math.random() * 2 - 1).toFixed(2));
     heart.style.setProperty('--y', (Math.random() * 2 - 1).toFixed(2));
-    // Position near icon
     const rect = targetIcon.getBoundingClientRect();
     heart.style.position = 'fixed';
-    heart.style.left = `${rect.left + rect.width/2}px`;
-    heart.style.top = `${rect.top + rect.height/2}px`;
+    heart.style.left = `${rect.left + rect.width / 2}px`;
+    heart.style.top = `${rect.top + rect.height / 2}px`;
     document.body.appendChild(heart);
-
-    setTimeout(() => {
-      heart.remove();
-    }, 800);
+    setTimeout(() => heart.remove(), 800);
   }
 }
 
-// Show temporary "I 💖 this 😎" text near icon
 function showLoveText(targetIcon) {
   const loveText = document.createElement('div');
   loveText.textContent = "I 💖 this 😎";
@@ -208,47 +244,20 @@ function showLoveText(targetIcon) {
   loveText.style.top = `${targetIcon.getBoundingClientRect().top - 20}px`;
   loveText.style.userSelect = 'none';
   document.body.appendChild(loveText);
-
-  setTimeout(() => {
-    loveText.remove();
-  }, 1500);
+  setTimeout(() => loveText.remove(), 1500);
 }
 
-// WhatsApp message function
+// WhatsApp button
 function sendWhatsappMessage(e, productIndex) {
   e.preventDefault();
   const productName = products[productIndex].name;
   const message = encodeURIComponent(`Hello, I am interested in your product: "${productName}". Please provide more details.`);
-  const whatsappNumber = "+264817859603"; // Your WhatsApp number
+  const whatsappNumber = "+264817859603";
   const url = `https://wa.me/${whatsappNumber}?text=${message}`;
   window.open(url, "_blank");
 }
 
-// Lightbox swipe down to close logic
-let startY = null;
-let startX = null;
-
-lightbox.addEventListener('touchstart', e => {
-  startY = e.touches[0].clientY;
-  startX = e.touches[0].clientX;
-});
-
-lightbox.addEventListener('touchmove', e => {
-  if(!startY) return;
-
-  let y = e.touches[0].clientY;
-  let x = e.touches[0].clientX;
-  let yDiff = y - startY;
-  let xDiff = x - startX;
-
-  // If mostly vertical swipe down by 50+ pixels -> close
-  if(yDiff > 50 && Math.abs(yDiff) > Math.abs(xDiff)) {
-    closeLightbox();
-    startY = null;
-  }
-});
-
-// Initialize likes on page load
+// On page load
 window.onload = () => {
   initLikes();
 };
