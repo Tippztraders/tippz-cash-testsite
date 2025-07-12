@@ -155,6 +155,9 @@ function goToImageAndClose(i) {
 
 // Swipe image left/right on mobile
 let startX = null;
+
+const lightbox = document.getElementById("lightbox");
+
 lightbox.addEventListener('touchstart', e => {
   startX = e.touches[0].clientX;
 });
@@ -175,6 +178,23 @@ lightbox.addEventListener('touchmove', e => {
     startX = null;
   }
 });
+
+// Tap anywhere outside the image to close lightbox
+lightbox.addEventListener("click", function (e) {
+  const imageWrapper = document.querySelector(".lightbox-image-wrapper");
+  if (!imageWrapper.contains(e.target)) {
+    closeLightbox(true);
+  }
+});
+
+// Tap anywhere outside the image to close lightbox
+lightbox.addEventListener("click", function (e) {
+  const imageWrapper = document.querySelector(".lightbox-image-wrapper");
+  if (!imageWrapper.contains(e.target)) {
+    closeLightbox(true);
+  }
+});
+
 
 // Arrow keys for desktop image browsing
 document.addEventListener("keydown", e => {
