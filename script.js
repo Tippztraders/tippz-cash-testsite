@@ -80,7 +80,6 @@ const products = [
     condition: "New"
   }
 ];
-
 const productContainer = document.querySelector(".product-grid");
 
 function renderProducts() {
@@ -112,6 +111,7 @@ function renderProducts() {
 
 renderProducts();
 
+// Globals for lightbox state
 let currentProductIndex = 0;
 let currentImageIndex = 0;
 
@@ -119,14 +119,15 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightboxImage");
 const lightboxDots = document.getElementById("lightboxDots");
 
-// Open lightbox
+// Open lightbox at given product and image
 function openLightbox(productIndex, imageIndex) {
   currentProductIndex = productIndex;
   currentImageIndex = imageIndex;
-  updateLightbox();
+  updateLightbox(currentImageIndex);
   lightbox.style.display = "flex";
 }
 
+// Close lightbox, optionally scroll back to product
 function closeLightbox(scrollBack = false) {
   lightbox.style.display = "none";
   if (scrollBack) {
@@ -137,26 +138,22 @@ function closeLightbox(scrollBack = false) {
   }
 }
 
-function updateLightbox() {
+// Update lightbox image and dots
+// Accept optional index to show a specific image
+function updateLightbox(imageIndex = null) {
   const images = products[currentProductIndex].images;
+  if (imageIndex !== null) {
+    currentImageIndex = imageIndex;
+  }
   lightboxImage.src = images[currentImageIndex];
-  lightboxDots.innerHTML = images.map((_, i) => `
-    <div class="${i === currentImageIndex ? 'active' : ''}" onclick="goToImageAndClose(${i})"></div>
-  `).join('');
-}
 
-function goToImageAndClose(i) {
-  currentImageIndex = i;
-  updateLightbox();
-  setTimeout(() => {
-    closeLightbox(true);
-  }, 150);
+  lightboxDots.innerHTML = images.map((_, i) => `
+    <div class="${i === currentImageIndex ? 'active' : ''}" onclick="updateLightbox(${i})"></div>
+  `).join('');
 }
 
 // Swipe image left/right on mobile
 let startX = null;
-
-const lightbox = document.getElementById("lightbox");
 
 lightbox.addEventListener('touchstart', e => {
   startX = e.touches[0].clientX;
@@ -187,16 +184,7 @@ lightbox.addEventListener("click", function (e) {
   }
 });
 
-// Tap anywhere outside the image to close lightbox
-lightbox.addEventListener("click", function (e) {
-  const imageWrapper = document.querySelector(".lightbox-image-wrapper");
-  if (!imageWrapper.contains(e.target)) {
-    closeLightbox(true);
-  }
-});
-
-
-// Arrow keys for desktop image browsing
+// Keyboard arrow keys for desktop navigation and escape to close
 document.addEventListener("keydown", e => {
   if (lightbox.style.display !== "flex") return;
   const images = products[currentProductIndex].images;
@@ -213,7 +201,7 @@ document.addEventListener("keydown", e => {
   }
 });
 
-// Like button logic
+// Like button logic with localStorage and burst hearts
 function toggleLike(icon, productIndex) {
   const likedKey = `liked_${productIndex}`;
   const isLiked = localStorage.getItem(likedKey) === 'true';
@@ -229,6 +217,7 @@ function toggleLike(icon, productIndex) {
   }
 }
 
+// Initialize like buttons state on page load
 function initLikes() {
   const likeIcons = document.querySelectorAll('.fa-heart');
   likeIcons.forEach((icon, idx) => {
@@ -238,6 +227,7 @@ function initLikes() {
   });
 }
 
+// Burst hearts animation
 function createBurstHearts(targetIcon) {
   for (let i = 0; i < 6; i++) {
     const heart = document.createElement('div');
@@ -253,6 +243,7 @@ function createBurstHearts(targetIcon) {
   }
 }
 
+// Show "I 💖 this 😎" text temporarily
 function showLoveText(targetIcon) {
   const loveText = document.createElement('div');
   loveText.textContent = "I 💖 this 😎";
@@ -267,7 +258,7 @@ function showLoveText(targetIcon) {
   setTimeout(() => loveText.remove(), 1500);
 }
 
-// WhatsApp button
+// WhatsApp button handler
 function sendWhatsappMessage(e, productIndex) {
   e.preventDefault();
   const productName = products[productIndex].name;
@@ -277,7 +268,7 @@ function sendWhatsappMessage(e, productIndex) {
   window.open(url, "_blank");
 }
 
-// On page load
+// Initialize likes on page load
 window.onload = () => {
   initLikes();
 };
